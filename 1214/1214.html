@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        /*先聯結外部字體*/
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+        @import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+        /*米字選取器是萬用就是整個網頁都要遵守 */
+        /*font-family字體要先放英文在放中文 */
+        *{
+            /* 強迫所有象素設定padding不會加上去原本寬      就是原本寬不會動     */
+            box-sizing: border-box;
+            font-family: "Rotobo","Noto Sans Tc","sans-serif"
+        }
+    /*css reset(CSS有預設值的一切歸零)可上網抓別人的複製過來    */
+        /*如果要設UL/OL/LI等也可以只是這邊先不設比較方便*/
+        body,h1,h2,h3,h4,h5,h6{
+            margin: 0;
+            padding: 0;
+        }
+        p{
+            font-size: 14px;
+            color: #999;
+        }
+        /*強迫圖為滿版*/
+        img{
+            width: 100%;
+            vertical-align: top;
+        /*因為IE會有邊框所以先強制為0*/
+            border: 0;
+        }
+        /*先解決會浮動問題        */
+        .clearfix::after{
+            content:"";
+            display: block;
+            clear: both;
+        }
+        /*強迫要滿版*/
+        .full-width{
+            width: 100%;
+        }
+        /*強迫要固定寬而且要置中*/
+        .fixed-width{
+            width: 1200px;
+            margin: auto;
+        }
+        /*三欄式區塊設定 */
+        .col-3{
+            float: left;
+        /*如果網頁寬是除不盡的可以打成width:calc(1100px/3);*/
+            width: 380px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        /*四欄式區塊設定 */
+        .col-4{
+            float: left;
+            width: 280px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        /*用一個固定位置 */
+        /*fixed是用來固定出現在網頁的如果網頁不用這樣可以不用設這個*/
+        nav{
+            position: fixed;
+        }
+        /*LOGO設定 */
+        nav .logo{
+            float: left;
+            width: 100px;
+            height: 100px;
+            background-color: darkorchid;
+        }
+        /*選單設定 */
+        nav .menu{
+            float: right;
+        }
+        /*先設定預設值為零 */
+        nav .menu ul{
+            margin: 0;
+            padding: 0;
+        }
+        /*每個選單排列以及點除掉設定 */
+        nav li   {
+            float: left;
+            list-style-type: none;
+        }
+        /*連結點要呈現的字的外部設定(大小/間距/字體顏色) */
+        nav a    {
+            display: block;
+            padding-left: 15px;
+            padding-right: 15px;
+            height: 100px;
+            line-height: 100px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        header{
+            background-image:url(http://lorempicsum.com/nemo/800/600/4);
+            background-size:cover;
+        /* height:600px;           */
+            padding-top: 250px;
+            padding-bottom: 250px;
+            text-align: center;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 0;
+        }
+        header::before{
+            content: "";
+            display:inline-block;
+            vertical-align: middle;
+            height: 100%;
+        }
+        header .content {
+            color: #FFF;
+            font-size: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        header .content h1{
+            letter-spacing: 5px;
+            font-size: 60px;
+        }
+        header .content p {
+            letter-spacing: 2px;
+            margin-top: 10px;
+            margin-bottom: 60px;
+            color: #fff;
+        }
+        header .content a {
+            display: inline-block;
+            color: #fff;
+            padding: 10px 25px;
+            text-decoration: none;
+            border: 1px solid;
+        }
+        /* 用內距去調大區塊距離*/
+        #about{
+            padding-top:100px;
+            padding-bottom: 100px;
+            background-color: #ddd;
+        }
+         /* 設定三欄式都是要置中然後往內距縮一點看起來比較不大*/
+        #about .col-3{
+            text-align: center;
+            padding: 20px;
+        }
+        /* 設定字上下外推距離這樣就不用個別去設定上面跟下面的距離推擠*/
+        #about h3{
+            margin-top: 30px;
+            margin-bottom: 30px;    
+        }
+        #about p{
+            font-size:14px;
+        }
+        /* 這方法是指類別一樣裡只對其中一種設定可用這方法就不用建很多只用一次性類別的class所以這方法會比較好然後括弧裡面是看你要選第幾個*/ 
+        /*:(冒號)後是產生元素而::(雙冒號)是產生東西*/
+        #about .col-3:nth-of-type(1) .icon{
+            color: darkred;
+        }
+        #about .col-3:nth-of-type(2) .icon{
+            color: #001dff;
+        }
+        #about .col-3:nth-of-type(3) .icon{
+            color: deeppink;
+        }
+        /* 這邊直接設定字型置中會比較快用和內距去調字的距離會比較快*/
+        #ad{
+            background-image: url(images/img8.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            text-align: center;
+            padding-top: 100px;
+            padding-bottom: 100px;
+            color: #fff;
+        }
+        #ad p{
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        #profile{
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+        #profile div:nth-of-type(1){
+            text-align: center;
+        }
+        #profile .detail{
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 0;
+        /*這邊一定要設寬度 這樣裡面的div要設寬度才抓得到 */
+            width: 100%;
+        }
+        #profile .detail::before{
+            content: "";
+            vertical-align: middle;
+            display: inline-block;
+            height: 100%;
+        }
+        #profile .thumb{
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 16px;
+            width: 80px;
+        }
+        #profile .position{
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 16px;
+            width: 300px;
+            text-align: left;
+        }
+        /*這個>只能選到第一個其他後代都無法剛剛那個nth-of-type()這種方法會把後代都用套進去*/
+        #profile div:nth-of-type(2) .col-3>p{
+            padding: 20px 20px 40px 15px;
+            text-align: left;
+        }
+        #blog{
+            background-color: #ddd;
+            padding-top: 150px;
+            padding-bottom: 150px;
+        }
+        #blog .gallery {
+            position: relative;
+        }
+        #blog .gallery .date{
+            position: absolute;
+/*            width: 40px;*/
+/*            height: 40px;*/
+            padding: 8px;
+            background-color: rgba(0,0,0,.5);
+            color: #fff;
+            top: 0;
+            left:40px;
+            text-align: center;
+        }
+        /*這邊的+是同代選取器 */
+        #blog .gallery+p{
+            padding-top: 30px;
+            color: #666;
+        }
+        .title{
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom:50px;
+        }
+        .title h2{
+            color: coral;
+        }
+        .title p{
+            line-height: 36px;
+        }
+        footer .logo{
+            width: 100px;
+            height: 70px;
+            background-color: #ccc;
+            float: left;
+        }
+        footer .copyright{
+            line-height: 70px;
+            float: left;
+            font-size: 14px;
+            margin-left: 30px;
+        }
+        footer .menu{
+            float: right;
+        }
+        footer .menu a{
+            line-height: 70px;
+            text-align: center;
+            color: #333;
+            margin-left: 20px
+        }
+    </style>
+</head>
+<body>
+    <!--先用最外邊包一個滿版不會受浮動影響  -->
+   <nav class="full-width clearfix">
+    <!--第二區塊設定強迫要固定寬而且要置中-->
+    <div class="fixed-width ">
+        <div class="logo"></div>
+        <div class="menu">
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Journal</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+     </div>
+     </nav>
+     <header class="full-width">
+         <div class="content">
+            <h1>qwert</h1>
+            <p>poiuyttreferqggshkf</p>
+            <a href="#">more</a>             
+         </div>
+     </header>
+        <!--先建一個大區塊設定滿版然後解除浮動-->
+     <div id="about" class="full-width clearfix">
+        <!--中間包區塊設定強迫要固定寬而且要置中-->
+        <div class="fixed-width">
+         <!--放三欄式選單的設定-->
+         <div class="col-3">
+             <div class="icon">
+            <!--加上連結的ICON樣式/ fa 就是從font-awesome/ fa-要的樣式 /-要的大小加上X -->
+             <span class="fa fa-child fa-4x"></span></div>
+             <h3>qwer</h3>
+             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate repellendus.</p> 
+         </div>
+         <div class="col-3">
+             <div class="icon"><span class="fa fa-meh-o fa-4x"></span></div>
+             <h3>qwer</h3>
+             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate repellendus.</p> 
+         </div>
+         <div class="col-3">
+             <div class="icon">
+<!--             -->
+             <span class="fa fa-tree fa-4x"></span></div>
+             <h3>qwer</h3>
+             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate repellendus.</p> 
+         </div> 
+       </div>  
+     </div>
+    <!--一樣大區塊都要設定滿版     -->
+     <div id="ad" class="full-width">
+        <div class="content">
+            <h2>qwertyu</h2>
+            <p>123659dfghjklaqwe</p>
+            <div><span class="fa fa-play-circle fa-4x"></span></div>
+        </div>
+     </div>
+     <div id="profile" class="full-width clearfix">
+         <div class="fixed-width title">
+             <h2>Profile</h2>
+             <p>Lorem ipsum dolor sit amet</p>
+         </div>
+         <div class="fixed-width">
+             <div class="col-3">
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate quidem tenetur dolores, tempore quam eveniet, eaque sapiente ipsam, vitae dolore est aspernatur voluptatem aliquid natus quia animi unde soluta. Unde.</p>
+                 <div class="detail">
+                     <div class="thumb"><span class="fa fa-gg fa-4x"></span></div>
+                     <div class="position">
+                         <h3>CEO</h3>
+                         <p>John Doe</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-3">
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate quidem tenetur dolores, tempore quam eveniet, eaque sapiente ipsam, vitae dolore est aspernatur voluptatem aliquid natus quia animi unde soluta. Unde.</p>
+                 <div class="detail">
+                     <div class="thumb"><span class="fa fa-gg fa-4x"></span></div>
+                     <div class="position">
+                         <h3>Alex Martin</h3>
+                         <p>UI Desinger</p>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-3">
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate quidem tenetur dolores, tempore quam eveniet, eaque sapiente ipsam, vitae dolore est aspernatur voluptatem aliquid natus quia animi unde soluta. Unde.</p>
+                 <div class="detail">
+                     <div class="thumb"><span class="fa fa-gg fa-4x"></span></div>
+                     <div class="position">
+                         <h3>Linder Doe</h3>
+                         <p>Developer</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         </div>
+         <div id="blog" class="full-width clearfix">
+             <div class="fixed-width title">
+                 <h2>RECRNT POSTS</h2>
+                 <p>the most recent posts from our blog</p>
+             </div>
+             <div class="fixed-width">
+                 <div class=col-4>
+                     <div class="gallery">
+                         <div class="date">25<br>Jun</div>
+                         <img src="images/img26.jpg" alt="">
+                     </div>
+                     <p>
+                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                     </p>
+                 </div>
+                 <div class=col-4>
+                     <div class="gallery">
+                         <div class="date">11<br>May</div>
+                         <img src="images/img28.jpg" alt="">
+                     </div>
+                     <p>
+                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                     </p>
+                 </div>
+                 <div class=col-4>
+                     <div class="gallery">
+                         <div class="date">13<br>Feb</div>
+                         <img src="images/img29.jpg" alt="">
+                     </div>
+                     <p>
+                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                     </p>
+                 </div>
+                 <div class=col-4>
+                     <div class="gallery">
+                         <div class="date">10<br>Jan</div>
+                         <img src="images/img30.jpg" alt="">
+                     </div>
+                     <p>
+                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                     </p>
+                 </div>
+             </div>
+         </div>
+         <footer class="full-width ">
+        <div class="fixed-width ">
+        <div class="logo"></div>
+        <div class="copyright">
+            <p>&copy;Lcc Desing AllRights Reserved - 2016</p>
+        </div>
+        <div class="menu">
+            <ul>
+                <a href="#">About</a>
+                <a href="#">FAQ</a>
+                <a href="#">Service</a>
+                <a href="#">Blog</a>
+                <a href="#">Contact</a>
+            </ul>
+        </div>
+     </div>
+     </footer>
+</body>
+</html>
